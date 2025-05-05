@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para você, Bia 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Great+Vibes&family=Sacramento&family=Dancing+Script&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffb6c1;
+        }
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            color: #e60073;
+            font-size: 40px;
+        }
+        p {
+            font-family: 'Great Vibes', cursive;
+            font-size: 22px;
+            color: #000000;
+        }
+        .remember-text {
+            font-family: 'Sacramento', cursive;
+            font-size: 24px;
+            color: #000000;
+        }
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #000000;
+            font-size: 32px;
+        }
+        .quiz-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .quiz-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #ff69b4;
+            color: white;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        #foto {
+            position: relative;
+            width: 300px;
+            margin: 30px auto;
+            display: none;
+        }
+        .imagem-revelada .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #999;
+            z-index: 1;
+        }
+        .mask.revealed {
+            background-color: transparent;
+            transition: background-color 1s ease;
+        }
+        .heart {
+            position: absolute;
+            animation: fall 5s infinite ease-in;
+            font-size: 30px;
+            color: rgba(255, 0, 0, 0.7);
+        }
+        @keyframes fall {
+            0% { top: -10%; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Para você, minha fofinha 💖</h1>
+    <p class="remember-text">Essa é apenas uma de muitas lembranças lindas que temos juntos...</p>
+
+    <button id="startBtn" onclick="startQuiz()">Começar Quiz</button>
+
+    <div class="quiz-section" id="quiz1">
+        <h2>Quando ficamos pela primeira vez?</h2>
+        <button onclick="checkAnswer('24/02', 'quiz1')">24/02</button>
+        <button onclick="checkAnswer('10/05', 'quiz1')">10/05</button>
+        <button onclick="checkAnswer('14/08', 'quiz1')">14/08</button>
+    </div>
+
+    <div class="quiz-section" id="quiz2">
+        <h2>O que te dei primeiro de presente?</h2>
+        <button onclick="checkAnswer('Chocolatinhos', 'quiz2')">Chocolatinhos</button>
+        <button onclick="checkAnswer('Cesta de café', 'quiz2')">Cesta de café</button>
+        <button onclick="checkAnswer('Brincos', 'quiz2')">Brincos</button>
+    </div>
+
+    <div class="quiz-section" id="feeling">
+        <h2>O que eu sinto por você</h2>
+        <p>
+            No dia em q começamos a manter e decidir que queríamos algo sério percebi q o jardim onde era deserto e só tinha pedras começou a florescer, quem diria que um lobo viraria cachorrinho com alguem kkkkkkkk, como disse passei de um momento difícil e você foi uma pessoa q me fez melhorar, tudo q estamos vivendo, conquistando, criando tá sendo incrível fofinha. A minha maior certeza é que tudo que desejamos irá se concretizar, uma frase que aprendi, foi: nunca diga nunca. O impossível farei tornar possível. Na sua visão posso ser um cara forte mas sempre tenho que ser forte por e pra vc nesse nosso “ciclo” (se já pode se dizer) quero te ver melhor e fazer o que ninguém possa fazer ou que ninguém nunca mais fará. Vou ser ser melhor amigo, namorado quem sabe kkkkkkk e companheiro, claro Leal também, minha palavra com a sua. Cresceremos juntos e em qualquer circunstância te apoiarei, eu te amo minha fofinha, princesa, marry, ciumentinha, amor, beatriz.
+        </p>
+    </div>
+
+    <div id="hearts"></div>
+
+    <div class="imagem-revelada" id="foto">
+        <div class="mask" id="mask"></div>
+        <img src="foto1.jpg" alt="Nossa foto especial" id="image" style="width:100%;">
+    </div>
+
+    <button id="nextBtn" onclick="nextQuiz()" style="display:none;">Próximo</button>
+    <button id="revealBtn" onclick="revealImage()" style="display:none;">Revelar Imagem</button>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['quiz1', 'quiz2', 'feeling'];
+        let answersCorrect = 0;
+
+        function startQuiz() {
+            document.getElementById('startBtn').style.display = 'none';
+            nextQuiz();
+        }
+
+        function nextQuiz() {
+            if (currentSection < sections.length) {
+                const currentId = sections[currentSection];
+                const el = document.getElementById(currentId);
+                el.style.display = 'block';
+                setTimeout(() => el.classList.add('active'), 50);
+                currentSection++;
+                document.getElementById('nextBtn').style.display = 'none';
+            }
+
+            if (currentSection === sections.length) {
+                setTimeout(() => {
+                    document.getElementById('foto').style.display = 'block';
+                    document.getElementById('revealBtn').style.display = 'inline-block';
+                }, 500);
+            }
+        }
+
+        function checkAnswer(answer, quizId) {
+            const correctAnswers = {
+                quiz1: '24/02',
+                quiz2: 'Chocolatinhos',
+            };
+
+            if (answer === correctAnswers[quizId]) {
+                alert('Resposta correta! 😍');
+                answersCorrect++;
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            } else {
+                alert('Resposta errada! Tente novamente!');
+            }
+        }
+
+        function generateHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.innerHTML = '❤️';
+                document.getElementById('hearts').appendChild(heart);
+            }
+        }
+
+        function revealImage() {
+            const mask = document.getElementById('mask');
+            mask.classList.add('revealed');
+        }
+
+        generateHearts();
+
+        // Adicionando música de fundo
+        const audio = new Audio('https://www.youtube.com/watch?v=ZZZZZZZZZZZ'); // Troque para o link correto do YouTube
+        audio.loop = true;
+        audio.play();
+    </script>
+</body>
+</html>
